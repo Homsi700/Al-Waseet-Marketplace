@@ -14,8 +14,9 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'picsum.photos',
         port: '',
-        pathname: '/**',
+        pathname: '/**', // Allow any path from picsum.photos
       },
+       // Add other allowed image domains here if needed
     ],
   },
 };
