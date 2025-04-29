@@ -1,4 +1,4 @@
-'use client'; // Add this directive to mark the component as a Client Component
+// Note: No 'use client' needed here if styled-jsx is removed and animations are CSS-based
 
 import Link from 'next/link';
 import { Button } from '@/components/ui/button';
@@ -8,14 +8,14 @@ import { ShoppingCart, Store, ArrowLeft } from 'lucide-react'; // Use ArrowLeft 
 export default function Home() {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-background to-secondary/50 p-4">
-      <h1 className="text-4xl font-bold text-primary mb-8 animate-fade-in">
+      <h1 className="text-4xl font-bold text-primary mb-8 animate-fade-in-slow"> {/* Using Tailwind animation class */}
         Al-Waseet Marketplace (الوسيط)
       </h1>
-      <p className="text-lg text-muted-foreground mb-12 text-center max-w-xl animate-fade-in animation-delay-200">
+      <p className="text-lg text-muted-foreground mb-12 text-center max-w-xl animate-fade-in-slow delay-200"> {/* Using Tailwind animation class */}
         منصة الوساطة الموثوقة التي تربط بين البائعين والمشترين بسهولة وأمان.
       </p>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 w-full max-w-4xl">
-        <Card className="hover:shadow-lg transition-shadow duration-300 animate-fade-in animation-delay-400">
+        <Card className="hover:shadow-lg transition-shadow duration-300 animate-fade-in-slow delay-400"> {/* Using Tailwind animation class */}
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-2xl">أنا زبون</CardTitle>
             <ShoppingCart className="h-8 w-8 text-primary" />
@@ -32,7 +32,7 @@ export default function Home() {
             </Button>
           </CardContent>
         </Card>
-        <Card className="hover:shadow-lg transition-shadow duration-300 animate-fade-in animation-delay-600">
+        <Card className="hover:shadow-lg transition-shadow duration-300 animate-fade-in-slow delay-600"> {/* Using Tailwind animation class */}
           <CardHeader className="flex flex-row items-center justify-between pb-2">
             <CardTitle className="text-2xl">أنا بائع</CardTitle>
             <Store className="h-8 w-8 text-accent" />
@@ -50,19 +50,8 @@ export default function Home() {
           </CardContent>
         </Card>
       </div>
-       {/* Add subtle animation classes using styled-jsx */}
-       <style jsx>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.5s ease-out forwards;
-        }
-        .animation-delay-200 { animation-delay: 0.2s; opacity: 0; }
-        .animation-delay-400 { animation-delay: 0.4s; opacity: 0; }
-        .animation-delay-600 { animation-delay: 0.6s; opacity: 0; }
-      `}</style>
+       {/* Animations can be defined in globals.css or using Tailwind utilities if preferred */}
     </div>
   );
 }
+```

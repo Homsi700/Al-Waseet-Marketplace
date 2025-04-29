@@ -4,19 +4,35 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { PlusCircle, Edit, Trash2, Eye } from 'lucide-react';
+import { PlusCircle, Edit, Trash2, Eye, DollarSign } from 'lucide-react'; // Added DollarSign
 
 // Mock Seller's Products Data - Replace with actual data fetching for the logged-in seller
+// Add priceUSD and priceSYP
 const getSellerProducts = async () => {
   // Simulate API call delay
   await new Promise(resolve => setTimeout(resolve, 500));
   // Fetch products specifically for the logged-in seller (using auth context/session)
   return [
-    { id: '1', name: 'قميص قطني', category: 'clothing', condition: 'جديد', price: 50, stock: 10, images: ['/placeholder-1.jpg'] },
-    { id: '4', name: 'ساعة يد أنيقة', category: 'accessories', condition: 'جديد', price: 250, stock: 5, images: ['/placeholder-7.jpg'] },
+    { id: '1', name: 'قميص قطني', category: 'mens-clothing', condition: 'جديد', priceUSD: 15, priceSYP: 200000, stock: 10, images: ['/placeholder-1.jpg'] },
+    { id: '4', name: 'ساعة يد أنيقة', category: 'accessories', condition: 'جديد', priceUSD: 70, priceSYP: 950000, stock: 5, images: ['/placeholder-7.jpg'] },
     // Add more products listed by this specific seller
   ];
 }
+
+// Helper function to format currency (consider moving to a utils file)
+const formatCurrency = (amount: number, currency: 'USD' | 'SYP') => {
+  const options: Intl.NumberFormatOptions = {
+    style: 'currency',
+    currency: currency,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  };
+  if (currency === 'SYP') {
+    return `${amount.toLocaleString('ar-SY')} ل.س`;
+  }
+  return amount.toLocaleString('en-US', options);
+};
+
 
 export default async function SellerDashboardPage() {
   const products = await getSellerProducts();
@@ -56,7 +72,8 @@ export default async function SellerDashboardPage() {
                     <TableHead className="w-[80px]">صورة</TableHead>
                     <TableHead>اسم المنتج</TableHead>
                     <TableHead>الحالة</TableHead>
-                    <TableHead className="text-right">السعر (ريال)</TableHead>
+                    <TableHead className="text-right">السعر (ل.س)</TableHead>
+                    <TableHead className="text-right">السعر (USD)</TableHead>
                     {/* <TableHead className="text-right">المخزون</TableHead> */}
                     <TableHead className="text-center">إجراءات</TableHead>
                     </TableRow>
@@ -80,7 +97,8 @@ export default async function SellerDashboardPage() {
                         <TableCell>
                            <Badge variant={product.condition === 'جديد' ? 'default' : 'secondary'}>{product.condition}</Badge>
                         </TableCell>
-                        <TableCell className="text-right">{product.price}</TableCell>
+                        <TableCell className="text-right font-semibold">{formatCurrency(product.priceSYP, 'SYP')}</TableCell>
+                         <TableCell className="text-right text-muted-foreground">{formatCurrency(product.priceUSD, 'USD')}</TableCell>
                         {/* <TableCell className="text-right">{product.stock}</TableCell> */}
                         <TableCell className="text-center">
                            <div className="flex justify-center space-x-1 space-x-reverse">
@@ -113,3 +131,4 @@ export default async function SellerDashboardPage() {
     </div>
   );
 }
+```
